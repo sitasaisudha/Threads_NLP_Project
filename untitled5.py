@@ -10,7 +10,7 @@ import spacy
 with open("svm_model.pkl",'rb')as file:#read the file
   model=pickle.load(file)
 
-with open("tfdf_vectorizer.pkl",'rb')as file:#read the file
+with open("tfid_vectorizer.pkl",'rb')as file:#read the file
   vectorizer=pickle.load(file)
 
 nltk.download('stopwords')
