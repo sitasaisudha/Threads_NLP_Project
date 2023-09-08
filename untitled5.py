@@ -7,44 +7,48 @@ import string
 import nltk
 import spacy
 
-with open("svm_model.pkl",'rb')as file:#read the file
-  model=pickle.load(file)
+with open("svm_model.pkl", "rb") as file:
+    model = pickle.load(file)
 
-with open("tfid_vectorizer.pkl",'rb')as file:#read the file
-  vectorizer=pickle.load(file)
+with open("tfid_vectorizer.pkl", "rb") as file:
+    vectorizer = pickle.load(file)
 
 nltk.download('stopwords')
-stopword=nltk.corpus.stopwords.words('english')
+stopwords = nltk.corpus.stopwords.words('english')
 
 def clean_text(text):
-  text=text.lower()
-  return text.strip()
+    text = text.lower()
+    return text.strip()
+
+def remove_punctuation(text):
+    punctuation_free = "".join([i for i in text if i not in string.punctuation])
+    return punctuation_free
 
 def tokenization(text):
     tokens = re.split(' ', text)
     return tokens
 
 def remove_stopwords(text):
-    output = " ".join(i for i in text if i not in stopword)
+    output = " ".join(i for i in text if i not in stopwords)
     return output
 
 def lemmatizer(text):
     nlp = spacy.load('en_core_web_sm')
     doc = nlp(text)
-    sent = [token.lemma_ for token in doc if not token.text in set(stopword)]
+    sent = [token.lemma_ for token in doc if not token.text in set(stopwords)]
     return ' '.join(sent)
 
 st.title("Sentiment Analysis App")
-st.markdown("By Thanusri")
-# image = Image.open("sentiment.webp")
+st.markdown("By Sai sudha")
+# image = Image.open("sentiment.png")
 # st.image(image, use_column_width=True)
 
 st.subheader("Enter your text here:")
-user_input = st.text_area(" ")
+user_input = st.text_area("")
 
 if user_input:
     user_input = clean_text(user_input)
-    # user_input = remove_punctuation(user_input)
+    user_input = remove_punctuation(user_input)
     user_input = user_input.lower()
     user_input = tokenization(user_input)
     user_input = remove_stopwords(user_input)
